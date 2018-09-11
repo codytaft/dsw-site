@@ -412,8 +412,8 @@ class Submission < ApplicationRecord
         (# (array_agg(DISTINCT t1.registration_id) & array_agg(DISTINCT t2.registration_id)))::float/
         (# (array_agg(DISTINCT t1.registration_id) | array_agg(DISTINCT t2.registration_id)))::float as similarity
         FROM session_registrations AS t1, session_registrations AS t2
-        INNER JOIN registrations ON t2.registration_id = registrations.id AND registrations.year = :year
-        WHERE t1.submission_id = :id and t2.submission_id != :id
+        INNER JOIN registrations ON t2.registration_id = registrations.id
+        WHERE t1.submission_id = :id AND t2.submission_id != :id AND registrations.year = :year
         GROUP BY t2.submission_id
         ORDER BY similarity DESC
         LIMIT :num
